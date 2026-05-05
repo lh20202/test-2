@@ -1,9 +1,1284 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Site</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A producer-friendly MIDI idea tool with playable piano-roll previews for Ableton and FL Studio.">
+  <title>MIDI Loop Lab</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0d10;
+      --panel: #15191f;
+      --panel-2: #101318;
+      --text: #f4f7fb;
+      --muted: #9aa6b2;
+      --line: #28313b;
+      --grid: #111;
+      --grid-line: rgba(255, 255, 255, 0.09);
+      --accent: #00ff88;
+      --accent-2: #7dd3fc;
+      --accent-soft: rgba(0, 255, 136, 0.12);
+      --shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(0, 255, 136, 0.1), transparent 30rem),
+        linear-gradient(180deg, #10141a 0%, var(--bg) 38%, #07090c 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(11, 13, 16, 0.82);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 70px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(0, 255, 136, 0.56);
+      border-radius: 6px;
+      background:
+        linear-gradient(90deg, transparent 0 22%, rgba(0, 255, 136, 0.28) 22% 42%, transparent 42% 100%),
+        #111;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      padding-bottom: 56px;
+    }
+
+    section {
+      padding: 52px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
+      gap: 34px;
+      align-items: center;
+      min-height: calc(100vh - 70px);
+      padding: 68px 0;
+      border-top: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(2.7rem, 6vw, 6.2rem);
+      font-weight: 850;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 3vw, 3rem);
+      font-weight: 820;
+    }
+
+    h3 {
+      font-size: 1.08rem;
+      font-weight: 760;
+    }
+
+    .intro {
+      max-width: 620px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .primary-link,
+    .ghost-link,
+    .preview-btn,
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 6px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .primary-link,
+    .preview-btn {
+      border: 1px solid rgba(0, 255, 136, 0.68);
+      background: var(--accent);
+      color: #03110a;
+      box-shadow: 0 14px 34px rgba(0, 255, 136, 0.16);
+    }
+
+    .ghost-link,
+    .download-btn {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading p {
+      max-width: 460px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .midi-shell {
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .midi-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 48px;
+      padding: 0 16px;
+      background: #1c222a;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .transport {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .transport span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #3b4654;
+    }
+
+    .transport span:nth-child(2) {
+      background: var(--accent);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.75);
+    }
+
+    .midi-grid {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      background: var(--grid);
+    }
+
+    .note-labels {
+      display: grid;
+      background: #0d0f12;
+      border-right: 1px solid var(--grid-line);
+    }
+
+    .note-labels span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 26px;
+      border-bottom: 1px solid var(--grid-line);
+      color: #a8b3bd;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.72rem;
+    }
+
+    .grid-lanes {
+      position: relative;
+      min-height: 260px;
+      background:
+        linear-gradient(to right, rgba(255, 255, 255, 0.18) 1px, transparent 1px) 0 0 / 12.5% 100%,
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px) 0 0 / 3.125% 100%,
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px) 0 0 / 100% var(--row-height, 26px),
+        var(--grid);
+    }
+
+    .midi-note {
+      position: absolute;
+      height: calc(var(--row-height, 26px) - 5px);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 4px;
+      background: linear-gradient(180deg, #40ffab, var(--accent));
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.26);
+    }
+
+    .hero-midi-footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .stat {
+      padding: 14px 16px;
+      background: var(--panel-2);
+    }
+
+    .stat b,
+    .stat span {
+      display: block;
+    }
+
+    .stat b {
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 760;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    article {
+      min-height: 100%;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 3px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #b8ffd8;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .tag.blue {
+      background: rgba(125, 211, 252, 0.12);
+      color: #c4ecff;
+    }
+
+    .note-copy {
+      margin: 0 0 12px;
+      padding: 13px;
+      background: #0c0f13;
+      border: 1px solid #26313c;
+      border-radius: 6px;
+      color: var(--accent);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+      user-select: all;
+    }
+
+    .description {
+      min-height: 56px;
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .loop-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .preview-btn,
+    .download-btn {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .download-btn {
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .preview-btn.is-playing {
+      background: #b8ffd8;
+      border-color: #b8ffd8;
+      box-shadow: 0 0 0 4px rgba(0, 255, 136, 0.14), 0 14px 34px rgba(0, 255, 136, 0.22);
+    }
+
+    .compact-midi {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      height: 110px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      border: 1px solid #26313c;
+      border-radius: 6px;
+      background: var(--grid);
+    }
+
+    .compact-midi .note-labels span {
+      min-height: 18px;
+      font-size: 0.62rem;
+    }
+
+    .compact-midi .grid-lanes {
+      min-height: 110px;
+    }
+
+    .compact-midi .midi-note {
+      height: calc(var(--row-height, 18px) - 4px);
+      box-shadow: 0 0 12px rgba(0, 255, 136, 0.24);
+    }
+
+    .tool-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .tool-chip {
+      min-height: 72px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #10151b;
+    }
+
+    .tool-chip b,
+    .tool-chip span {
+      display: block;
+    }
+
+    .tool-chip b {
+      margin-bottom: 4px;
+    }
+
+    .tool-chip span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .library {
+      padding-bottom: 72px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .filter {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #10151b;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 760;
+    }
+
+    .filter.active {
+      border-color: rgba(0, 255, 136, 0.65);
+      background: var(--accent-soft);
+      color: #d6ffe8;
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .library-card h3 {
+      margin-bottom: 10px;
+      font-size: 0.98rem;
+    }
+
+    .library-notes {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.86rem;
+      user-select: all;
+    }
+
+    .vibe {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .library-card .preview-btn {
+      min-height: 36px;
+      margin-top: 14px;
+      padding: 0 12px;
+      font-size: 0.88rem;
+    }
+
+    footer {
+      padding: 28px 0 36px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-heading {
+        display: block;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .midi-shell,
+      .section-heading p {
+        margin-top: 24px;
+      }
+
+      .example-grid,
+      .library-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .tool-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav,
+      .hero-midi-footer {
+        display: block;
+      }
+
+      nav {
+        padding: 18px 0;
+      }
+
+      .nav-links {
+        margin-top: 14px;
+      }
+
+      .hero {
+        padding: 48px 0;
+      }
+
+      .example-grid,
+      .library-grid,
+      .tool-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .midi-grid {
+        grid-template-columns: 48px 1fr;
+      }
+
+      .grid-lanes {
+        background:
+          linear-gradient(to right, rgba(255, 255, 255, 0.18) 1px, transparent 1px) 0 0 / 25% 100%,
+          linear-gradient(to right, var(--grid-line) 1px, transparent 1px) 0 0 / 6.25% 100%,
+          linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px) 0 0 / 100% var(--row-height, 26px),
+          var(--grid);
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello</h1>
+  <header>
+    <div class="page">
+      <nav aria-label="Main navigation">
+        <div class="brand"><span class="brand-mark" aria-hidden="true"></span>MIDI Loop Lab</div>
+        <div class="nav-links">
+          <a href="#ideas">Ideas</a>
+          <a href="#loops">Loops</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#library">Library</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Ableton and FL Studio ready</p>
+        <h1 id="page-title">MIDI chord ideas you can drop straight into the piano roll.</h1>
+        <p class="intro">Pick a vibe, copy the notes, draw the blocks, and loop. Everything is shown as actual MIDI notes, with dark grid previews that feel closer to your DAW than a textbook.</p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#loops">Browse loops</a>
+          <a class="ghost-link" href="#library">Full library</a>
+        </div>
+      </div>
+
+      <aside class="midi-shell" aria-label="Featured MIDI grid">
+        <div class="midi-topbar">
+          <span>Emotional loop</span>
+          <div class="transport" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
+        <div class="midi-grid visual-grid" data-loop="emotional"></div>
+        <div class="hero-midi-footer">
+          <div class="stat">
+            <span>First chord</span>
+            <b>C3 Eb3 G3</b>
+          </div>
+          <div class="stat">
+            <span>Tempo</span>
+            <b>120 BPM</b>
+          </div>
+          <div class="stat">
+            <span>Vibe</span>
+            <b>emotional loop</b>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="ideas" aria-labelledby="ideas-title">
+      <div class="section-heading">
+        <h2 id="ideas-title">Think In Blocks</h2>
+        <p>No labels to translate. Every idea is shown as MIDI notes, so you can copy the notes and build the loop on your grid.</p>
+      </div>
+      <div class="tool-strip" aria-label="Producer workflow points">
+        <div class="tool-chip">
+          <b>Copy notes</b>
+          <span>Use the note blocks as your piano roll checklist.</span>
+        </div>
+        <div class="tool-chip">
+          <b>Loop fast</b>
+          <span>Short patterns for 4-bar and 8-bar sketches.</span>
+        </div>
+        <div class="tool-chip">
+          <b>Pick a mood</b>
+          <span>Dark minimal, ambient, melodic techno, emotional loop.</span>
+        </div>
+        <div class="tool-chip">
+          <b>Hear the shape</b>
+          <span>Preview loops with continuous DAW-style playback.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="loops" aria-labelledby="loops-title">
+      <div class="section-heading">
+        <h2 id="loops-title">Modern MIDI Loops</h2>
+        <p>Longer progressions with clear chord stacks, timed movement, and playable previews.</p>
+      </div>
+      <div class="example-grid">
+        <article data-loop-card="dark">
+          <h3>Dark Minimal Pulse</h3>
+          <div class="meta">
+            <span class="tag">dark minimal</span>
+            <span class="tag blue">8 bars</span>
+          </div>
+          <p class="note-copy"></p>
+          <p class="description">Low, tight, and uncluttered. Stacked blocks show chords; later blocks stretch into a longer response.</p>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="dark">Enable audio</button>
+            <button class="download-btn" type="button">Download MIDI</button>
+          </div>
+        </article>
+
+        <article data-loop-card="ambient">
+          <h3>Ambient Pad Drift</h3>
+          <div class="meta">
+            <span class="tag">ambient</span>
+            <span class="tag blue">8 bars</span>
+          </div>
+          <p class="note-copy"></p>
+          <p class="description">Soft, wide, and slow moving. Longer notes overlap visually with the space they occupy.</p>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="ambient">Enable audio</button>
+            <button class="download-btn" type="button">Download MIDI</button>
+          </div>
+        </article>
+
+        <article data-loop-card="techno">
+          <h3>Melodic Techno Lift</h3>
+          <div class="meta">
+            <span class="tag">melodic techno</span>
+            <span class="tag blue">8 bars</span>
+          </div>
+          <p class="note-copy"></p>
+          <p class="description">Forward motion without clutter. Chords and short answer notes are separated by their beat positions.</p>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="techno">Enable audio</button>
+            <button class="download-btn" type="button">Download MIDI</button>
+          </div>
+        </article>
+
+        <article data-loop-card="lofi">
+          <h3>Lo-fi Rain Loop</h3>
+          <div class="meta">
+            <span class="tag">lo-fi</span>
+            <span class="tag blue">4 bars</span>
+          </div>
+          <p class="note-copy"></p>
+          <p class="description">Dusty and mellow. Chords move like a sampled keyboard part with a small top-note answer.</p>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="lofi">Enable audio</button>
+            <button class="download-btn" type="button">Download MIDI</button>
+          </div>
+        </article>
+
+        <article data-loop-card="emotional">
+          <h3>Emotional Loop Starter</h3>
+          <div class="meta">
+            <span class="tag">emotional loop</span>
+            <span class="tag blue">8 bars</span>
+          </div>
+          <p class="note-copy"></p>
+          <p class="description">A direct mood bed for toplines, vocal chops, and bright plucks with a gentle lift near the end.</p>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="emotional">Enable audio</button>
+            <button class="download-btn" type="button">Download MIDI</button>
+          </div>
+        </article>
+
+        <article data-loop-card="afterhours">
+          <h3>After-hours Bass Chords</h3>
+          <div class="meta">
+            <span class="tag">dark minimal</span>
+            <span class="tag blue">4 bars</span>
+          </div>
+          <p class="note-copy"></p>
+          <p class="description">Darker low-mid blocks for stripped arrangements, with short stabs answering held chords.</p>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="afterhours">Enable audio</button>
+            <button class="download-btn" type="button">Download MIDI</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="workflow" aria-labelledby="workflow-title">
+      <div class="section-heading">
+        <h2 id="workflow-title">Piano Roll View</h2>
+        <p>The grid is generated from the same timing data that plays the sound: time controls horizontal position, duration controls width, pitch controls height.</p>
+      </div>
+      <div class="midi-shell" aria-label="Large MIDI grid example">
+        <div class="midi-topbar">
+          <span>Melodic techno lift</span>
+          <div class="transport" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
+        <div class="midi-grid visual-grid" data-loop="techno"></div>
+      </div>
+    </section>
+
+    <section id="library" class="library" aria-labelledby="library-title">
+      <div class="section-heading">
+        <h2 id="library-title">Browse Full Library</h2>
+        <p>Filter tags are visual only for now. Use the cards as quick MIDI prompts when a blank grid needs a starting point.</p>
+      </div>
+      <div class="filters" aria-label="Visual filter tags">
+        <span class="filter active">all</span>
+        <span class="filter">dark minimal</span>
+        <span class="filter">ambient</span>
+        <span class="filter">melodic techno</span>
+        <span class="filter">emotional loop</span>
+        <span class="filter">lo-fi</span>
+      </div>
+      <div class="library-grid">
+        <article class="library-card" data-loop-card="night">
+          <div class="compact-midi visual-grid" data-loop="night"></div>
+          <h3>Night Runner</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">dark minimal</p>
+          <button class="preview-btn" type="button" data-loop="night">Enable audio</button>
+        </article>
+
+        <article class="library-card" data-loop-card="soft">
+          <div class="compact-midi visual-grid" data-loop="soft"></div>
+          <h3>Soft Focus</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">ambient</p>
+          <button class="preview-btn" type="button" data-loop="soft">Enable audio</button>
+        </article>
+
+        <article class="library-card" data-loop-card="warehouse">
+          <div class="compact-midi visual-grid" data-loop="warehouse"></div>
+          <h3>Warehouse Pluck</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">melodic techno</p>
+          <button class="preview-btn" type="button" data-loop="warehouse">Enable audio</button>
+        </article>
+
+        <article class="library-card" data-loop-card="late">
+          <div class="compact-midi visual-grid" data-loop="late"></div>
+          <h3>Late Text</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">emotional loop</p>
+          <button class="preview-btn" type="button" data-loop="late">Enable audio</button>
+        </article>
+
+        <article class="library-card" data-loop-card="tape">
+          <div class="compact-midi visual-grid" data-loop="tape"></div>
+          <h3>Tape Glow</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">lo-fi</p>
+          <button class="preview-btn" type="button" data-loop="tape">Enable audio</button>
+        </article>
+
+        <article class="library-card" data-loop-card="basement">
+          <div class="compact-midi visual-grid" data-loop="basement"></div>
+          <h3>Basement Air</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">dark minimal</p>
+          <button class="preview-btn" type="button" data-loop="basement">Enable audio</button>
+        </article>
+
+        <article class="library-card" data-loop-card="open">
+          <div class="compact-midi visual-grid" data-loop="open"></div>
+          <h3>Open Sky</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">ambient</p>
+          <button class="preview-btn" type="button" data-loop="open">Enable audio</button>
+        </article>
+
+        <article class="library-card" data-loop-card="green">
+          <div class="compact-midi visual-grid" data-loop="green"></div>
+          <h3>Green Room</h3>
+          <p class="library-notes"></p>
+          <p class="vibe">melodic techno</p>
+          <button class="preview-btn" type="button" data-loop="green">Enable audio</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="page">Static HTML, CSS, and browser audio. MIDI download buttons are placeholders.</div>
+  </footer>
+
+  <script>
+    const BPM = 120;
+    const BEAT_SECONDS = 60 / BPM;
+    const LOOKAHEAD_SECONDS = 0.16;
+    const SCHEDULE_INTERVAL_MS = 25;
+    const NOTE_NAMES = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+    const NOTE_MAP = {
+      C: 0,
+      Db: 1,
+      D: 2,
+      Eb: 3,
+      E: 4,
+      F: 5,
+      Gb: 6,
+      G: 7,
+      Ab: 8,
+      A: 9,
+      Bb: 10,
+      B: 11
+    };
+
+    const loops = {
+      dark: {
+        bars: 8,
+        events: [
+          { time: 0, notes: ["F3", "Ab3", "C4"], duration: 2 },
+          { time: 2, notes: ["Eb3", "G3", "Bb3"], duration: 2 },
+          { time: 4, notes: ["C3", "Eb3", "G3"], duration: 2 },
+          { time: 6, notes: ["Bb2", "D3", "F3"], duration: 2 },
+          { time: 8, notes: ["F3", "Ab3", "C4"], duration: 1.5 },
+          { time: 10, notes: ["Ab2", "C3", "Eb3"], duration: 2 },
+          { time: 12, notes: ["Db3", "F3", "Ab3"], duration: 2 },
+          { time: 14, notes: ["C3", "Eb3", "G3"], duration: 2 }
+        ]
+      },
+      ambient: {
+        bars: 8,
+        events: [
+          { time: 0, notes: ["A2", "C3", "E3"], duration: 4 },
+          { time: 4, notes: ["G2", "B2", "D3"], duration: 4 },
+          { time: 8, notes: ["F2", "A2", "C3"], duration: 4 },
+          { time: 12, notes: ["E2", "G2", "B2"], duration: 3 },
+          { time: 15, notes: ["D3", "E3"], duration: 1 }
+        ]
+      },
+      techno: {
+        bars: 8,
+        events: [
+          { time: 0, notes: ["C3", "Eb3", "G3"], duration: 1.5 },
+          { time: 2, notes: ["Ab2", "C3", "Eb3"], duration: 1.5 },
+          { time: 4, notes: ["Bb2", "D3", "F3"], duration: 1.5 },
+          { time: 6, notes: ["G2", "Bb2", "D3"], duration: 1.5 },
+          { time: 8, notes: ["C3", "Eb3", "G3"], duration: 1 },
+          { time: 9.5, notes: ["G3"], duration: 0.5 },
+          { time: 10, notes: ["Ab2", "C3", "Eb3"], duration: 1.5 },
+          { time: 12, notes: ["F2", "Ab2", "C3"], duration: 1.5 },
+          { time: 14, notes: ["G2", "Bb2", "D3"], duration: 2 },
+          { time: 15.5, notes: ["F3"], duration: 0.5 }
+        ]
+      },
+      lofi: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["D3", "F3", "A3"], duration: 1.75 },
+          { time: 2, notes: ["Bb2", "D3", "F3"], duration: 1.75 },
+          { time: 4, notes: ["G2", "Bb2", "D3"], duration: 1.75 },
+          { time: 6, notes: ["A2", "C3", "E3"], duration: 1.5 },
+          { time: 7.5, notes: ["C4"], duration: 0.5 }
+        ]
+      },
+      emotional: {
+        bars: 8,
+        events: [
+          { time: 0, notes: ["C3", "Eb3", "G3"], duration: 2 },
+          { time: 2, notes: ["G2", "Bb2", "D3"], duration: 2 },
+          { time: 4, notes: ["Ab2", "C3", "Eb3"], duration: 2 },
+          { time: 6, notes: ["F2", "Ab2", "C3"], duration: 2 },
+          { time: 8, notes: ["C3", "Eb3", "G3"], duration: 2 },
+          { time: 10, notes: ["Bb2", "D3", "F3"], duration: 2 },
+          { time: 12, notes: ["Ab2", "C3", "Eb3"], duration: 1.5 },
+          { time: 14, notes: ["G2", "Bb2", "D3"], duration: 2 },
+          { time: 15, notes: ["F3", "G3"], duration: 1 }
+        ]
+      },
+      afterhours: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["G2", "Bb2", "D3"], duration: 2 },
+          { time: 2, notes: ["F2", "Ab2", "C3"], duration: 1 },
+          { time: 3, notes: ["Ab2", "C3"], duration: 0.75 },
+          { time: 4, notes: ["Eb2", "G2", "Bb2"], duration: 2 },
+          { time: 6, notes: ["C2", "Eb2", "G2"], duration: 2 }
+        ]
+      },
+      night: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["C3", "Eb3", "G3"], duration: 2 },
+          { time: 2, notes: ["Bb2", "D3", "F3"], duration: 2 },
+          { time: 4, notes: ["Ab2", "C3", "Eb3"], duration: 2 },
+          { time: 6, notes: ["G2", "Bb2", "D3"], duration: 2 }
+        ]
+      },
+      soft: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["A2", "C3", "E3"], duration: 4 },
+          { time: 4, notes: ["F2", "A2", "C3"], duration: 3 },
+          { time: 7, notes: ["G2", "B2"], duration: 1 }
+        ]
+      },
+      warehouse: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["G2", "Bb2", "D3"], duration: 1.5 },
+          { time: 2, notes: ["Bb2", "D3", "F3"], duration: 1.5 },
+          { time: 4, notes: ["C3", "Eb3", "G3"], duration: 1.5 },
+          { time: 6, notes: ["F2", "Ab2", "C3"], duration: 2 }
+        ]
+      },
+      late: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["E3", "G3", "B3"], duration: 2 },
+          { time: 2, notes: ["C3", "E3", "G3"], duration: 2 },
+          { time: 4, notes: ["D3", "F3", "A3"], duration: 2 },
+          { time: 6, notes: ["B2", "D3", "F3"], duration: 2 }
+        ]
+      },
+      tape: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["D3", "F3", "A3"], duration: 2 },
+          { time: 2, notes: ["Bb2", "D3", "F3"], duration: 2 },
+          { time: 4, notes: ["G2", "Bb2", "D3"], duration: 1.5 },
+          { time: 6, notes: ["A2", "C3", "E3"], duration: 2 }
+        ]
+      },
+      basement: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["F3", "Ab3", "C4"], duration: 2 },
+          { time: 2, notes: ["Eb3", "G3", "Bb3"], duration: 2 },
+          { time: 4, notes: ["Db3", "F3", "Ab3"], duration: 2 },
+          { time: 6, notes: ["C3", "Eb3", "G3"], duration: 2 }
+        ]
+      },
+      open: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["Ab2", "C3", "Eb3"], duration: 3 },
+          { time: 3, notes: ["Bb2", "D3"], duration: 1 },
+          { time: 4, notes: ["Eb2", "G2", "Bb2"], duration: 4 }
+        ]
+      },
+      green: {
+        bars: 4,
+        events: [
+          { time: 0, notes: ["C3", "Eb3", "G3"], duration: 1.5 },
+          { time: 2, notes: ["Ab2", "C3", "Eb3"], duration: 1.5 },
+          { time: 4, notes: ["Bb2", "D3", "F3"], duration: 1.5 },
+          { time: 6, notes: ["G2", "Bb2", "D3"], duration: 2 }
+        ]
+      }
+    };
+
+    let audioContext;
+    let audioUnlocked = false;
+    let activeLoopId = null;
+    let activeButton = null;
+    let schedulerId = null;
+    let nextLoopStartTime = 0;
+    let activeSources = [];
+
+    function noteToMidi(note) {
+      const match = note.trim().match(/^([A-G](?:b)?)(\d)$/);
+      if (!match) {
+        return 0;
+      }
+
+      return (Number(match[2]) + 1) * 12 + NOTE_MAP[match[1]];
+    }
+
+    function midiToNote(midi) {
+      const octave = Math.floor(midi / 12) - 1;
+      return NOTE_NAMES[midi % 12] + octave;
+    }
+
+    function noteToFrequency(note) {
+      return 440 * Math.pow(2, (noteToMidi(note) - 69) / 12);
+    }
+
+    function getLoopLengthBeats(loop) {
+      return loop.bars * 4;
+    }
+
+    function getLoopRange(loop) {
+      const values = loop.events.flatMap((event) => event.notes.map(noteToMidi));
+      const min = Math.max(0, Math.min(...values) - 1);
+      const max = Math.min(96, Math.max(...values) + 1);
+      const notes = [];
+
+      for (let midi = max; midi >= min; midi -= 1) {
+        notes.push(midiToNote(midi));
+      }
+
+      return notes;
+    }
+
+    function setNoteText() {
+      document.querySelectorAll("[data-loop-card]").forEach((card) => {
+        const loop = loops[card.dataset.loopCard];
+        const target = card.querySelector(".note-copy, .library-notes");
+        if (!loop || !target) {
+          return;
+        }
+
+        const lines = loop.events.map((event) => event.notes.join(" "));
+        target.innerHTML = lines.join("<br>");
+      });
+    }
+
+    function renderGrid(container) {
+      const loop = loops[container.dataset.loop];
+      if (!loop) {
+        return;
+      }
+
+      const isCompact = container.classList.contains("compact-midi");
+      const range = getLoopRange(loop);
+      const rowHeight = isCompact ? 18 : 26;
+      const length = getLoopLengthBeats(loop);
+      const labels = document.createElement("div");
+      const lanes = document.createElement("div");
+
+      labels.className = "note-labels";
+      lanes.className = "grid-lanes";
+      labels.style.gridTemplateRows = `repeat(${range.length}, ${rowHeight}px)`;
+      lanes.style.setProperty("--row-height", `${rowHeight}px`);
+      lanes.style.minHeight = `${range.length * rowHeight}px`;
+
+      range.forEach((note) => {
+        const label = document.createElement("span");
+        label.textContent = note;
+        labels.appendChild(label);
+      });
+
+      loop.events.forEach((event) => {
+        event.notes.forEach((note) => {
+          const block = document.createElement("span");
+          const row = range.indexOf(note);
+
+          block.className = "midi-note";
+          block.style.left = `${(event.time / length) * 100}%`;
+          block.style.width = `${(event.duration / length) * 100}%`;
+          block.style.top = `${row * rowHeight + 2}px`;
+          block.setAttribute("aria-label", `${note} at beat ${event.time}`);
+          lanes.appendChild(block);
+        });
+      });
+
+      container.innerHTML = "";
+      container.appendChild(labels);
+      container.appendChild(lanes);
+    }
+
+    async function ensureAudioContext() {
+      audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+
+      if (audioContext.state === "suspended") {
+        await audioContext.resume();
+      }
+
+      return audioContext;
+    }
+
+    async function unlockAudio() {
+      const context = await ensureAudioContext();
+
+      if (!audioUnlocked) {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        gain.gain.setValueAtTime(0.0001, context.currentTime);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(context.currentTime);
+        oscillator.stop(context.currentTime + 0.03);
+        audioUnlocked = true;
+
+        document.querySelectorAll(".preview-btn").forEach((button) => {
+          if (!button.classList.contains("is-playing")) {
+            button.textContent = "Play preview";
+          }
+        });
+      }
+    }
+
+    function scheduleNote(note, startTime, durationSeconds) {
+      const release = 0.3;
+      const noteEnd = startTime + durationSeconds;
+      const stopTime = noteEnd + release + 0.05;
+      const filter = audioContext.createBiquadFilter();
+      const envelope = audioContext.createGain();
+      const saw = audioContext.createOscillator();
+      const sine = audioContext.createOscillator();
+      const sawGain = audioContext.createGain();
+      const sineGain = audioContext.createGain();
+      const frequency = noteToFrequency(note);
+
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(1500, startTime);
+      filter.Q.setValueAtTime(0.75, startTime);
+
+      envelope.gain.setValueAtTime(0.0001, startTime);
+      envelope.gain.exponentialRampToValueAtTime(0.28, startTime + 0.02);
+      envelope.gain.exponentialRampToValueAtTime(0.168, startTime + 0.12);
+      envelope.gain.setValueAtTime(0.168, Math.max(startTime + 0.13, noteEnd - release));
+      envelope.gain.exponentialRampToValueAtTime(0.0001, noteEnd + release);
+
+      saw.type = "sawtooth";
+      saw.frequency.setValueAtTime(frequency, startTime);
+      saw.detune.setValueAtTime(-5, startTime);
+      sine.type = "sine";
+      sine.frequency.setValueAtTime(frequency, startTime);
+      sine.detune.setValueAtTime(5, startTime);
+
+      sawGain.gain.setValueAtTime(0.22, startTime);
+      sineGain.gain.setValueAtTime(0.18, startTime);
+
+      saw.connect(sawGain);
+      sine.connect(sineGain);
+      sawGain.connect(filter);
+      sineGain.connect(filter);
+      filter.connect(envelope);
+      envelope.connect(audioContext.destination);
+
+      saw.start(startTime);
+      sine.start(startTime);
+      saw.stop(stopTime);
+      sine.stop(stopTime);
+      activeSources.push(saw, sine);
+    }
+
+    function scheduleLoopPass(loop, loopStartTime) {
+      loop.events.forEach((event) => {
+        const startTime = loopStartTime + event.time * BEAT_SECONDS;
+        const durationSeconds = event.duration * BEAT_SECONDS;
+        event.notes.forEach((note) => scheduleNote(note, startTime, durationSeconds));
+      });
+    }
+
+    function scheduler() {
+      if (!activeLoopId) {
+        return;
+      }
+
+      const loop = loops[activeLoopId];
+      const loopDurationSeconds = getLoopLengthBeats(loop) * BEAT_SECONDS;
+
+      while (nextLoopStartTime < audioContext.currentTime + LOOKAHEAD_SECONDS) {
+        scheduleLoopPass(loop, nextLoopStartTime);
+        nextLoopStartTime += loopDurationSeconds;
+      }
+    }
+
+    function stopLoop() {
+      if (schedulerId) {
+        clearInterval(schedulerId);
+        schedulerId = null;
+      }
+
+      activeSources.forEach((source) => {
+        try {
+          source.stop(audioContext.currentTime + 0.02);
+        } catch (error) {
+          return;
+        }
+      });
+
+      activeSources = [];
+      activeLoopId = null;
+
+      if (activeButton) {
+        activeButton.classList.remove("is-playing");
+        activeButton.textContent = audioUnlocked ? "Play preview" : "Enable audio";
+        activeButton = null;
+      }
+    }
+
+    async function handlePreview(button) {
+      if (!audioUnlocked) {
+        await unlockAudio();
+        return;
+      }
+
+      if (button === activeButton) {
+        stopLoop();
+        return;
+      }
+
+      stopLoop();
+      await ensureAudioContext();
+
+      activeLoopId = button.dataset.loop;
+      activeButton = button;
+      activeButton.classList.add("is-playing");
+      activeButton.textContent = "Stop";
+      nextLoopStartTime = audioContext.currentTime + 0.04;
+      scheduler();
+      schedulerId = setInterval(scheduler, SCHEDULE_INTERVAL_MS);
+    }
+
+    setNoteText();
+    document.querySelectorAll(".visual-grid").forEach(renderGrid);
+    document.querySelectorAll(".preview-btn").forEach((button) => {
+      button.addEventListener("click", () => handlePreview(button));
+    });
+  </script>
 </body>
 </html>
