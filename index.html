@@ -387,6 +387,13 @@
       font-size: 0.95rem;
     }
 
+    .source-line {
+      margin: -4px 0 14px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
     .loop-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -677,6 +684,23 @@
         <p>Longer progressions with clear chord stacks, timed movement, and playable previews.</p>
       </div>
       <div class="example-grid">
+        <article data-loop-card="bachTest">
+          <h3>Score-derived Bach test</h3>
+          <div class="meta">
+            <span class="tag">emotional loop</span>
+            <span class="tag">ambient</span>
+            <span class="tag blue">8 bars</span>
+          </div>
+          <div class="compact-midi visual-grid" data-loop="bachTest"></div>
+          <p class="source-line">J. S. Bach / Bach chorale test</p>
+          <p class="note-copy"></p>
+          <p class="description">A simplified chord-stack loop extracted from one Bach MusicXML file and mapped into a producer-ready mid-range voicing.</p>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="bachTest">Enable audio</button>
+            <button class="download-btn" type="button">Download MIDI</button>
+          </div>
+        </article>
+
         <article data-loop-card="dark">
           <h3>Dark Minimal Pulse</h3>
           <div class="meta">
@@ -884,6 +908,24 @@
     };
 
     const loops = {
+      bachTest: {
+        bars: 8,
+        source: {
+          composer: "J. S. Bach",
+          work: "Bach chorale test",
+          file: "bach-test.musicxml"
+        },
+        events: [
+          { time: 0, notes: ["C4", "Eb4", "G4"], duration: 4 },
+          { time: 4, notes: ["G3", "B3", "D4"], duration: 4 },
+          { time: 8, notes: ["B3", "D4", "G4"], duration: 4 },
+          { time: 12, notes: ["D3", "F4", "Ab4"], duration: 4 },
+          { time: 16, notes: ["D4", "G4", "B4"], duration: 4 },
+          { time: 20, notes: ["G3", "B3", "D4"], duration: 4 },
+          { time: 24, notes: ["F3", "Eb4", "G4", "Bb4"], duration: 4 },
+          { time: 28, notes: ["Eb4", "G4", "Bb4"], duration: 4 }
+        ]
+      },
       dark: {
         bars: 8,
         events: [
