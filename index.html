@@ -480,6 +480,7 @@
       grid-template-columns: minmax(280px, 0.72fr) minmax(420px, 1.28fr);
       gap: 20px;
       align-items: stretch;
+      margin-bottom: 18px;
       background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(125, 211, 252, 0.05)), var(--panel);
       box-shadow: var(--shadow);
     }
@@ -553,6 +554,32 @@
     .bpm-control input::-webkit-inner-spin-button {
       margin: 0;
       appearance: none;
+    }
+
+    .beat-control {
+      display: grid;
+      gap: 6px;
+      margin: 0 0 12px;
+    }
+
+    .beat-control label {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .beat-control select {
+      width: 100%;
+      min-height: 38px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #11181e;
+      color: var(--text);
+      font: inherit;
+      font-weight: 760;
     }
 
     .bach-feature-card .note-copy {
@@ -936,9 +963,102 @@
 
     <section id="bach-test" aria-labelledby="bach-test-title">
       <div class="section-heading">
-        <h2 id="bach-test-title">Score-derived Bach test</h2>
-        <p>A first test of converting symbolic score data into a producer-ready MIDI loop.</p>
+        <h2 id="bach-test-title">Featured chord loops</h2>
       </div>
+      <article class="bach-feature-card" data-loop-card="chopinRaindrop">
+        <div class="bach-details">
+          <h3>Rainy Chopin Pad Loop</h3>
+          <p class="source-line">Source: Chopin - Prelude Op. 28 No. 15 "Raindrop"</p>
+          <p class="bach-copy">Raindrop-inspired harmonic material reduced into an 8-bar MIDI loop. Use it for rainy ambient pads, emotional piano chords, lo-fi keys, or soft melodic tension.</p>
+          <div class="meta">
+            <span class="tag">rainy ambient</span>
+            <span class="tag">emotional piano</span>
+            <span class="tag mood">lo-fi keys</span>
+            <span class="tag mood">soft tension</span>
+            <span class="tag mood">public domain source</span>
+          </div>
+          <div class="bach-stats">
+            <div class="bach-stat">
+              <span>BPM</span>
+              <div class="bpm-control" aria-label="Chopin preview BPM">
+                <button type="button" class="bpm-step" data-step="-5">-</button>
+                <input class="bpm-input" type="number" min="60" max="240" step="1" value="120" aria-label="BPM">
+                <button type="button" class="bpm-step" data-step="5">+</button>
+              </div>
+            </div>
+            <div class="bach-stat">
+              <span>Length</span>
+              <b>8 bars</b>
+            </div>
+          </div>
+          <div class="bar-note-list note-copy"></div>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="chopinRaindrop">Listen</button>
+            <button class="download-btn" type="button" data-loop="chopinRaindrop">Download MIDI</button>
+          </div>
+          <p class="audio-message" aria-live="polite"></p>
+        </div>
+        <div class="midi-shell bach-piano-shell" aria-label="Chopin Raindrop MIDI grid">
+          <div class="midi-topbar">
+            <span>Chopin Raindrop loop</span>
+            <div class="transport" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+          <div class="piano-legend" aria-label="Piano roll legend">
+            <span>Stacked blocks = chord</span>
+            <span>Horizontal movement = sequence</span>
+            <span>Block width = note duration</span>
+          </div>
+          <div class="piano-roll visual-grid" data-loop="chopinRaindrop" data-bars="true" data-velocity="true"></div>
+        </div>
+      </article>
+
+      <article class="bach-feature-card" data-loop-card="debussyClair">
+        <div class="bach-details">
+          <h3>Dreamy Debussy Chord Bed</h3>
+          <p class="source-line">Source: Debussy - Clair de Lune</p>
+          <p class="bach-copy">Clair de Lune-inspired harmonic colour reduced into an 8-bar MIDI loop. Use it for dreamy pads, cinematic keys, ambient chord beds, or soft melodic toplines.</p>
+          <div class="meta">
+            <span class="tag">dreamy keys</span>
+            <span class="tag">cinematic</span>
+            <span class="tag mood">ambient chord bed</span>
+            <span class="tag mood">soft moonlit texture</span>
+            <span class="tag mood">public domain source</span>
+          </div>
+          <div class="bach-stats">
+            <div class="bach-stat">
+              <span>BPM</span>
+              <div class="bpm-control" aria-label="Debussy preview BPM">
+                <button type="button" class="bpm-step" data-step="-5">-</button>
+                <input class="bpm-input" type="number" min="60" max="240" step="1" value="120" aria-label="BPM">
+                <button type="button" class="bpm-step" data-step="5">+</button>
+              </div>
+            </div>
+            <div class="bach-stat">
+              <span>Length</span>
+              <b>8 bars</b>
+            </div>
+          </div>
+          <div class="bar-note-list note-copy"></div>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="debussyClair">Listen</button>
+            <button class="download-btn" type="button" data-loop="debussyClair">Download MIDI</button>
+          </div>
+          <p class="audio-message" aria-live="polite"></p>
+        </div>
+        <div class="midi-shell bach-piano-shell" aria-label="Debussy Clair de Lune MIDI grid">
+          <div class="midi-topbar">
+            <span>Debussy Clair de Lune loop</span>
+            <div class="transport" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+          <div class="piano-legend" aria-label="Piano roll legend">
+            <span>Stacked blocks = chord</span>
+            <span>Horizontal movement = sequence</span>
+            <span>Block width = note duration</span>
+          </div>
+          <div class="piano-roll visual-grid" data-loop="debussyClair" data-bars="true" data-velocity="true"></div>
+        </div>
+      </article>
+
       <article class="bach-feature-card" data-loop-card="bachTest">
         <div class="bach-details">
           <h3>Bittersweet Bach Pad Loop</h3>
@@ -957,7 +1077,7 @@
               <span>BPM</span>
               <div class="bpm-control" aria-label="Bach preview BPM">
                 <button type="button" class="bpm-step" data-step="-5">-</button>
-                <input id="bach-bpm" type="number" min="60" max="180" step="1" value="120" aria-label="BPM">
+                <input id="bach-bpm" class="bpm-input" type="number" min="60" max="240" step="1" value="120" aria-label="BPM">
                 <button type="button" class="bpm-step" data-step="5">+</button>
               </div>
             </div>
@@ -1192,6 +1312,42 @@
     };
 
     const loops = {
+      chopinRaindrop: {
+        bars: 8,
+        source: {
+          composer: "Frédéric Chopin",
+          work: "Prelude Op. 28 No. 15 \"Raindrop\"",
+          file: "MusicXML source not available in this local prototype; loop interpreted from public-domain/symbolic Raindrop material"
+        },
+        events: [
+          { time: 0, notes: ["Db3", "F3", "Ab3"], duration: 4 },
+          { time: 4, notes: ["Ab2", "Db3", "F3"], duration: 4 },
+          { time: 8, notes: ["B2", "E3", "G3"], duration: 4 },
+          { time: 12, notes: ["Gb2", "B2", "E3"], duration: 4 },
+          { time: 16, notes: ["Db3", "F3", "Ab3"], duration: 4 },
+          { time: 20, notes: ["Bb2", "Db3", "F3"], duration: 4 },
+          { time: 24, notes: ["E3", "G3", "Bb3"], duration: 4 },
+          { time: 28, notes: ["Ab2", "C3", "Eb3"], duration: 4 }
+        ]
+      },
+      debussyClair: {
+        bars: 8,
+        source: {
+          composer: "Claude Debussy",
+          work: "Clair de Lune",
+          file: "https://musetrainer.github.io/library/scores/Clair_de_Lune__Debussy.mxl"
+        },
+        events: [
+          { time: 0, notes: ["Db3", "F3", "Ab3", "C4"], duration: 4 },
+          { time: 4, notes: ["Gb2", "Bb2", "Db3", "F3"], duration: 4 },
+          { time: 8, notes: ["Eb3", "Gb3", "Bb3"], duration: 4 },
+          { time: 12, notes: ["Ab2", "C3", "Eb3", "Gb3"], duration: 4 },
+          { time: 16, notes: ["Db3", "F3", "Ab3"], duration: 4 },
+          { time: 20, notes: ["B2", "Eb3", "Gb3", "Bb3"], duration: 4 },
+          { time: 24, notes: ["E3", "Ab3", "B3"], duration: 4 },
+          { time: 28, notes: ["Ab2", "Db3", "F3", "Ab3"], duration: 4 }
+        ]
+      },
       bachTest: {
         bars: 8,
         source: {
@@ -1365,6 +1521,101 @@
     let activeLoopStartTime = 0;
     let playheadFrameId = null;
     let lastPointerPreviewTime = 0;
+    const beatPatterns = {
+      none: { label: "No beat", hits: [] },
+      techno: {
+        label: "Techno",
+        hits: [
+          { time: 0, type: "kick", velocity: 1 },
+          { time: 1, type: "kick", velocity: 0.86 },
+          { time: 2, type: "kick", velocity: 0.95 },
+          { time: 3, type: "kick", velocity: 0.86 },
+          { time: 0.5, type: "hat", velocity: 0.55 },
+          { time: 1.5, type: "hat", velocity: 0.58 },
+          { time: 2.5, type: "hat", velocity: 0.55 },
+          { time: 3.5, type: "hat", velocity: 0.58 }
+        ]
+      },
+      dnb: {
+        label: "DnB / Amen",
+        hits: [
+          { time: 0, type: "kick", velocity: 1 },
+          { time: 0.75, type: "hat", velocity: 0.55 },
+          { time: 1, type: "snare", velocity: 0.95 },
+          { time: 1.5, type: "kick", velocity: 0.72 },
+          { time: 2.25, type: "kick", velocity: 0.78 },
+          { time: 2.5, type: "hat", velocity: 0.54 },
+          { time: 3, type: "snare", velocity: 0.92 },
+          { time: 3.5, type: "hat", velocity: 0.62 }
+        ]
+      },
+      breakbeat: {
+        label: "Breakbeat",
+        hits: [
+          { time: 0, type: "kick", velocity: 1 },
+          { time: 0.5, type: "hat", velocity: 0.48 },
+          { time: 1, type: "snare", velocity: 0.9 },
+          { time: 1.75, type: "kick", velocity: 0.75 },
+          { time: 2, type: "hat", velocity: 0.52 },
+          { time: 2.75, type: "kick", velocity: 0.68 },
+          { time: 3, type: "snare", velocity: 0.92 },
+          { time: 3.5, type: "hat", velocity: 0.55 }
+        ]
+      },
+      hiphop: {
+        label: "Hip-hop",
+        hits: [
+          { time: 0, type: "kick", velocity: 0.95 },
+          { time: 0.75, type: "hat", velocity: 0.42 },
+          { time: 1, type: "snare", velocity: 0.84 },
+          { time: 2, type: "kick", velocity: 0.72 },
+          { time: 2.5, type: "hat", velocity: 0.45 },
+          { time: 3, type: "snare", velocity: 0.82 },
+          { time: 3.75, type: "hat", velocity: 0.5 }
+        ]
+      },
+      house: {
+        label: "House",
+        hits: [
+          { time: 0, type: "kick", velocity: 0.98 },
+          { time: 0.5, type: "hat", velocity: 0.48 },
+          { time: 1, type: "kick", velocity: 0.9 },
+          { time: 1.5, type: "hat", velocity: 0.5 },
+          { time: 2, type: "kick", velocity: 0.96 },
+          { time: 2.5, type: "hat", velocity: 0.48 },
+          { time: 3, type: "kick", velocity: 0.9 },
+          { time: 3.5, type: "hat", velocity: 0.52 }
+        ]
+      },
+      garage: {
+        label: "UK garage",
+        hits: [
+          { time: 0, type: "kick", velocity: 0.9 },
+          { time: 0.75, type: "hat", velocity: 0.48 },
+          { time: 1, type: "snare", velocity: 0.82 },
+          { time: 1.5, type: "kick", velocity: 0.62 },
+          { time: 2.25, type: "hat", velocity: 0.52 },
+          { time: 2.75, type: "kick", velocity: 0.76 },
+          { time: 3, type: "snare", velocity: 0.82 },
+          { time: 3.75, type: "hat", velocity: 0.5 }
+        ]
+      },
+      trap: {
+        label: "Trap hats",
+        hits: [
+          { time: 0, type: "kick", velocity: 0.92 },
+          { time: 0.5, type: "hat", velocity: 0.44 },
+          { time: 1, type: "snare", velocity: 0.82 },
+          { time: 1.25, type: "hat", velocity: 0.4 },
+          { time: 1.5, type: "hat", velocity: 0.5 },
+          { time: 2, type: "kick", velocity: 0.78 },
+          { time: 2.5, type: "hat", velocity: 0.44 },
+          { time: 3, type: "snare", velocity: 0.82 },
+          { time: 3.25, type: "hat", velocity: 0.38 },
+          { time: 3.5, type: "hat", velocity: 0.52 }
+        ]
+      }
+    };
 
     function beatSeconds() {
       return 60 / currentBpm;
@@ -1419,6 +1670,40 @@
             .join("<br>");
         } else {
           target.innerHTML = loop.events.map((event) => event.notes.join(" ")).join("<br>");
+        }
+      });
+    }
+
+    function injectBeatControls() {
+      document.querySelectorAll("[data-loop-card]").forEach((card) => {
+        const loopId = card.dataset.loopCard;
+        const actions = card.querySelector(".loop-actions, .preview-btn");
+        if (!loops[loopId] || !actions || card.querySelector(".beat-control")) {
+          return;
+        }
+
+        const control = document.createElement("div");
+        const label = document.createElement("label");
+        const select = document.createElement("select");
+
+        control.className = "beat-control";
+        label.textContent = "Add beat";
+        select.className = "beat-select";
+        select.dataset.loop = loopId;
+        Object.entries(beatPatterns).forEach(([value, pattern]) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = pattern.label;
+          select.appendChild(option);
+        });
+
+        control.appendChild(label);
+        control.appendChild(select);
+
+        if (actions.classList.contains("loop-actions")) {
+          actions.before(control);
+        } else {
+          actions.before(control);
         }
       });
     }
@@ -1604,12 +1889,82 @@
       activeSources.push(saw, sine);
     }
 
+    function createNoiseBuffer(durationSeconds) {
+      const length = Math.max(1, Math.floor(audioContext.sampleRate * durationSeconds));
+      const buffer = audioContext.createBuffer(1, length, audioContext.sampleRate);
+      const data = buffer.getChannelData(0);
+
+      for (let index = 0; index < length; index += 1) {
+        data[index] = Math.random() * 2 - 1;
+      }
+
+      return buffer;
+    }
+
+    function scheduleDrum(type, startTime, velocity) {
+      if (type === "kick") {
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(92, startTime);
+        oscillator.frequency.exponentialRampToValueAtTime(42, startTime + 0.16);
+        gain.gain.setValueAtTime(0.0001, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.42 * velocity, startTime + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.22);
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 0.24);
+        activeSources.push(oscillator);
+        return;
+      }
+
+      const noise = audioContext.createBufferSource();
+      const filter = audioContext.createBiquadFilter();
+      const gain = audioContext.createGain();
+      const duration = type === "snare" ? 0.18 : 0.07;
+
+      noise.buffer = createNoiseBuffer(duration);
+      filter.type = type === "snare" ? "bandpass" : "highpass";
+      filter.frequency.setValueAtTime(type === "snare" ? 1300 : 6500, startTime);
+      filter.Q.setValueAtTime(type === "snare" ? 0.8 : 0.4, startTime);
+      gain.gain.setValueAtTime(0.0001, startTime);
+      gain.gain.exponentialRampToValueAtTime((type === "snare" ? 0.22 : 0.1) * velocity, startTime + 0.004);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioContext.destination);
+      noise.start(startTime);
+      noise.stop(startTime + duration + 0.02);
+      activeSources.push(noise);
+    }
+
+    function getBeatPatternId(loopId) {
+      return document.querySelector(`[data-loop-card="${loopId}"] .beat-select`)?.value || "none";
+    }
+
+    function scheduleBeatPattern(loopId, loopStartTime, loop) {
+      const pattern = beatPatterns[getBeatPatternId(loopId)];
+      if (!pattern || pattern.hits.length === 0) {
+        return;
+      }
+
+      for (let beat = 0; beat < getLoopLengthBeats(loop); beat += 4) {
+        pattern.hits.forEach((hit) => {
+          scheduleDrum(hit.type, loopStartTime + (beat + hit.time) * beatSeconds(), hit.velocity);
+        });
+      }
+    }
+
     function scheduleLoopPass(loop, loopStartTime) {
       loop.events.forEach((event) => {
         const startTime = loopStartTime + event.time * beatSeconds();
         const durationSeconds = event.duration * beatSeconds();
         event.notes.forEach((note) => scheduleNote(note, startTime, durationSeconds));
       });
+      if (activeLoopId) {
+        scheduleBeatPattern(activeLoopId, loopStartTime, loop);
+      }
     }
 
     function updatePlayheads() {
@@ -1754,16 +2109,15 @@
     }
 
     function clampBpm(value) {
-      return Math.max(60, Math.min(180, Number(value) || 120));
+      return Math.max(60, Math.min(240, Number(value) || 120));
     }
 
     async function setBpm(value) {
-      const bpmInput = document.querySelector("#bach-bpm");
       const nextBpm = clampBpm(value);
       currentBpm = nextBpm;
-      if (bpmInput) {
-        bpmInput.value = String(nextBpm);
-      }
+      document.querySelectorAll(".bpm-input").forEach((input) => {
+        input.value = String(nextBpm);
+      });
 
       if (activeLoopId) {
         const button = activeButton;
@@ -1855,7 +2209,12 @@
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = loopId === "bachTest" ? "bach-chorale-test-loop.mid" : `${loopId}-loop.mid`;
+      const filenames = {
+        bachTest: "bach-chorale-test-loop.mid",
+        chopinRaindrop: "chopin-raindrop-pad-loop.mid",
+        debussyClair: "debussy-clair-chord-bed.mid"
+      };
+      link.download = filenames[loopId] || `${loopId}-loop.mid`;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -1863,6 +2222,7 @@
     }
 
     setNoteText();
+    injectBeatControls();
     document.querySelectorAll(".visual-grid").forEach(renderGrid);
     document.querySelectorAll(".preview-btn").forEach((button) => {
       button.addEventListener("pointerup", (event) => handlePreviewPointer(event, button));
@@ -1873,12 +2233,26 @@
     });
     document.querySelectorAll(".bpm-step").forEach((button) => {
       button.addEventListener("click", () => {
-        const input = document.querySelector("#bach-bpm");
+        const input = button.closest(".bpm-control")?.querySelector(".bpm-input");
+        if (!input) {
+          return;
+        }
         setBpm(clampBpm(Number(input.value) + Number(button.dataset.step)));
       });
     });
-    document.querySelector("#bach-bpm")?.addEventListener("change", (event) => {
-      setBpm(event.target.value);
+    document.querySelectorAll(".bpm-input").forEach((input) => {
+      input.addEventListener("change", (event) => {
+        setBpm(event.target.value);
+      });
+    });
+    document.querySelectorAll(".beat-select").forEach((select) => {
+      select.addEventListener("change", async () => {
+        if (activeLoopId === select.dataset.loop && activeButton) {
+          const button = activeButton;
+          stopLoop();
+          await handlePreview(button);
+        }
+      });
     });
   </script>
 </body>
