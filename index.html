@@ -112,6 +112,11 @@
       border-top: 1px solid var(--line);
     }
 
+    #bach-test {
+      border-top: 0;
+      padding-top: 40px;
+    }
+
     .hero {
       display: grid;
       grid-template-columns: minmax(0, 0.95fr) minmax(340px, 1.05fr);
@@ -261,6 +266,40 @@
       background: var(--grid);
     }
 
+    .piano-roll {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      background: #0f1114;
+    }
+
+    .time-ruler-spacer,
+    .time-ruler {
+      min-height: 34px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      background: #181d23;
+    }
+
+    .time-ruler {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(to right, rgba(255, 255, 255, 0.28) 1px, transparent 1px) 0 0 / 12.5% 100%,
+        linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px) 0 0 / 3.125% 100%,
+        #181d23;
+    }
+
+    .bar-label {
+      position: absolute;
+      top: 8px;
+      color: #b9c5d1;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transform: translateX(8px);
+      white-space: nowrap;
+    }
+
     .note-labels {
       display: grid;
       background: #0d0f12;
@@ -285,16 +324,53 @@
         linear-gradient(to right, rgba(255, 255, 255, 0.18) 1px, transparent 1px) 0 0 / 12.5% 100%,
         linear-gradient(to right, var(--grid-line) 1px, transparent 1px) 0 0 / 3.125% 100%,
         linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px) 0 0 / 100% var(--row-height, 26px),
-        var(--grid);
+        #101316;
+      overflow: hidden;
     }
 
     .midi-note {
       position: absolute;
       height: calc(var(--row-height, 26px) - 5px);
-      border: 1px solid rgba(255, 255, 255, 0.32);
-      border-radius: 4px;
-      background: linear-gradient(180deg, #40ffab, var(--accent));
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.26);
+      padding: 2px 6px;
+      border: 1px solid rgba(196, 255, 226, 0.54);
+      border-radius: 5px;
+      background: linear-gradient(180deg, #49f6bd, #08d99a);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 16px rgba(0, 255, 136, 0.22);
+      color: rgba(2, 25, 17, 0.72);
+      font-size: 0.64rem;
+      font-weight: 900;
+      line-height: 1.2;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .playhead {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 4;
+      width: 2px;
+      background: #fff8a8;
+      box-shadow: 0 0 12px rgba(255, 248, 168, 0.9);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-1px);
+    }
+
+    .playhead::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -5px;
+      width: 12px;
+      height: 8px;
+      border-radius: 0 0 4px 4px;
+      background: #fff8a8;
+    }
+
+    .is-following .playhead {
+      opacity: 1;
     }
 
     .hero-midi-footer {
@@ -366,6 +442,11 @@
       color: #c4ecff;
     }
 
+    .tag.mood {
+      background: rgba(125, 211, 252, 0.1);
+      color: #d7f2ff;
+    }
+
     .note-copy {
       margin: 0 0 12px;
       padding: 13px;
@@ -394,6 +475,197 @@
       font-weight: 700;
     }
 
+    .bach-feature-card {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.72fr) minmax(420px, 1.28fr);
+      gap: 20px;
+      align-items: stretch;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(125, 211, 252, 0.05)), var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .bach-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bach-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 0 0 14px;
+    }
+
+    .bach-stat {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .bach-stat span,
+    .bach-stat b {
+      display: block;
+    }
+
+    .bach-stat span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .bach-stat b {
+      margin-top: 2px;
+      font-size: 1rem;
+    }
+
+    .bpm-control {
+      display: grid;
+      grid-template-columns: 34px 1fr 34px;
+      gap: 6px;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .bpm-control button,
+    .bpm-control input {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #11181e;
+      color: var(--text);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .bpm-control button {
+      cursor: pointer;
+    }
+
+    .bpm-control input {
+      width: 100%;
+      appearance: textfield;
+    }
+
+    .bpm-control input::-webkit-outer-spin-button,
+    .bpm-control input::-webkit-inner-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+
+    .bach-feature-card .note-copy {
+      margin-top: auto;
+    }
+
+    .bach-feature-card .midi-shell {
+      box-shadow: none;
+    }
+
+    .bach-copy {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .piano-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 12px;
+      background: #14191f;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .piano-legend span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 3px 9px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #10151b;
+      color: #c8d3de;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .bar-note-list {
+      margin: 12px 0 0;
+      padding: 12px;
+      background: #0c0f13;
+      border: 1px solid #26313c;
+      border-radius: 6px;
+      color: var(--accent);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      user-select: all;
+    }
+
+    .bar-row {
+      display: block;
+      border-radius: 4px;
+      padding: 1px 4px;
+    }
+
+    .bar-row.is-current {
+      background: rgba(0, 255, 136, 0.16);
+      color: #b8ffd8;
+    }
+
+    .velocity-lane {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      grid-column: 1 / -1;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      background: #101316;
+    }
+
+    .velocity-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 70px;
+      padding: 0 8px;
+      border-right: 1px solid var(--grid-line);
+      background: #0d0f12;
+      color: #a8b3bd;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .velocity-bars {
+      position: relative;
+      min-height: 70px;
+      background:
+        linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px) 0 0 / 12.5% 100%,
+        linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px) 0 0 / 3.125% 100%,
+        #101316;
+    }
+
+    .velocity-bar {
+      position: absolute;
+      bottom: 9px;
+      width: 10px;
+      border-radius: 3px 3px 0 0;
+      background: linear-gradient(180deg, #77ffd1, #08d99a);
+      opacity: 0.85;
+    }
+
+    .bach-piano-shell .midi-topbar {
+      background: #171c22;
+    }
+
+    .bach-piano-shell .piano-roll {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
     .loop-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -411,6 +683,18 @@
       box-shadow: none;
     }
 
+    .download-btn[data-loop] {
+      cursor: pointer;
+    }
+
+    .audio-message {
+      min-height: 20px;
+      margin: 8px 0 0;
+      color: #c4ecff;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
     .preview-btn.is-playing {
       background: #b8ffd8;
       border-color: #b8ffd8;
@@ -420,7 +704,7 @@
     .compact-midi {
       display: grid;
       grid-template-columns: 38px 1fr;
-      height: 110px;
+      height: 132px;
       margin-bottom: 14px;
       overflow: hidden;
       border: 1px solid #26313c;
@@ -434,7 +718,7 @@
     }
 
     .compact-midi .grid-lanes {
-      min-height: 110px;
+      min-height: 132px;
     }
 
     .compact-midi .midi-note {
@@ -444,7 +728,7 @@
 
     .tool-strip {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       margin-top: 18px;
     }
@@ -542,6 +826,7 @@
 
     @media (max-width: 980px) {
       .hero,
+      .bach-feature-card,
       .section-heading {
         display: block;
       }
@@ -609,10 +894,8 @@
       <nav aria-label="Main navigation">
         <div class="brand"><span class="brand-mark" aria-hidden="true"></span>MIDI Loop Lab</div>
         <div class="nav-links">
-          <a href="#ideas">Ideas</a>
           <a href="#loops">Loops</a>
-          <a href="#workflow">Workflow</a>
-          <a href="#library">Library</a>
+          <a href="#library">Search full library</a>
         </div>
       </nav>
     </div>
@@ -621,61 +904,89 @@
   <main class="page">
     <section class="hero" aria-labelledby="page-title">
       <div>
-        <p class="eyebrow">Ableton and FL Studio ready</p>
+        <p class="eyebrow">Producer-ready MIDI from public domain sources</p>
         <h1 id="page-title">MIDI chord ideas you can drop straight into the piano roll.</h1>
-        <p class="intro">Pick a vibe, copy the notes, draw the blocks, and loop. Everything is shown as actual MIDI notes, with dark grid previews that feel closer to your DAW than a textbook.</p>
-        <div class="hero-actions">
-          <a class="primary-link" href="#loops">Browse loops</a>
-          <a class="ghost-link" href="#library">Full library</a>
-        </div>
+        <p class="intro">A tool for producers who want royalty-free MIDI chord and melody blocks derived from public domain musical works, reduced into simple playable piano-roll patterns. Listen, copy the notes, download MIDI, and adapt the loop in Ableton, FL Studio, Logic, GarageBand, or any DAW built around a piano roll.</p>
       </div>
-
-      <aside class="midi-shell" aria-label="Featured MIDI grid">
-        <div class="midi-topbar">
-          <span>Emotional loop</span>
-          <div class="transport" aria-hidden="true"><span></span><span></span><span></span></div>
-        </div>
-        <div class="midi-grid visual-grid" data-loop="emotional"></div>
-        <div class="hero-midi-footer">
-          <div class="stat">
-            <span>First chord</span>
-            <b>C3 Eb3 G3</b>
-          </div>
-          <div class="stat">
-            <span>Tempo</span>
-            <b>120 BPM</b>
-          </div>
-          <div class="stat">
-            <span>Vibe</span>
-            <b>emotional loop</b>
-          </div>
-        </div>
-      </aside>
     </section>
 
     <section id="ideas" aria-labelledby="ideas-title">
       <div class="section-heading">
-        <h2 id="ideas-title">Think In Blocks</h2>
-        <p>No labels to translate. Every idea is shown as MIDI notes, so you can copy the notes and build the loop on your grid.</p>
+        <h2 id="ideas-title">Think in blocks</h2>
+        <p>Royalty-free MIDI chord and melody blocks, reduced from public domain musical works and translated into piano-roll patterns producers can use.</p>
       </div>
-      <div class="tool-strip" aria-label="Producer workflow points">
+      <div class="tool-strip" aria-label="How to use MIDI Loop Lab">
         <div class="tool-chip">
-          <b>Copy notes</b>
-          <span>Use the note blocks as your piano roll checklist.</span>
+          <b>Step 1: Pick a vibe</b>
+          <span>Choose a mood such as dark minimal, ambient pad, emotional chord progression, lo-fi keys, melodic techno, cinematic tension, sad piano loop, or warm chord stabs.</span>
         </div>
         <div class="tool-chip">
-          <b>Loop fast</b>
-          <span>Short patterns for 4-bar and 8-bar sketches.</span>
+          <b>Step 2: Listen to the loop</b>
+          <span>Press Listen to hear the MIDI chord progression as a simple synth preview. It is a quick way to hear the harmonic shape before you use your own instruments.</span>
         </div>
         <div class="tool-chip">
-          <b>Pick a mood</b>
-          <span>Dark minimal, ambient, melodic techno, emotional loop.</span>
+          <b>Step 3: Read the blocks</b>
+          <span>Stacked notes are chords. Notes moving left to right are the sequence. Longer blocks hold for longer. The grid shows the same producer-ready MIDI data used for playback.</span>
         </div>
         <div class="tool-chip">
-          <b>Hear the shape</b>
-          <span>Preview loops with continuous DAW-style playback.</span>
+          <b>Step 4: Download or copy</b>
+          <span>Download the MIDI file or copy the note names into your DAW piano roll. Use it as a MIDI chord pack, melody starter, chord progression idea, ambient pad chords, lo-fi keys, melodic techno chords, chord stabs, or a dark minimal loop with your own sounds.</span>
         </div>
       </div>
+    </section>
+
+    <section id="bach-test" aria-labelledby="bach-test-title">
+      <div class="section-heading">
+        <h2 id="bach-test-title">Score-derived Bach test</h2>
+        <p>A first test of converting symbolic score data into a producer-ready MIDI loop.</p>
+      </div>
+      <article class="bach-feature-card" data-loop-card="bachTest">
+        <div class="bach-details">
+          <h3>Bittersweet Bach Pad Loop</h3>
+          <p class="source-line">Source: "O Gott, du frommer Gott" (public domain)</p>
+          <p class="bach-copy">Score-derived harmonic material reduced into an 8-bar MIDI loop. Use it as a pad bed, pluck pattern, or chord-stab starting point.</p>
+          <div class="meta">
+            <span class="tag">emotional loop</span>
+            <span class="tag">ambient</span>
+            <span class="tag mood">bittersweet pad</span>
+            <span class="tag mood">warm plucks</span>
+            <span class="tag mood">late-night</span>
+            <span class="tag mood">soft tension</span>
+          </div>
+          <div class="bach-stats">
+            <div class="bach-stat">
+              <span>BPM</span>
+              <div class="bpm-control" aria-label="Bach preview BPM">
+                <button type="button" class="bpm-step" data-step="-5">-</button>
+                <input id="bach-bpm" type="number" min="60" max="180" step="1" value="120" aria-label="BPM">
+                <button type="button" class="bpm-step" data-step="5">+</button>
+              </div>
+            </div>
+            <div class="bach-stat">
+              <span>Length</span>
+              <b>8 bars</b>
+            </div>
+          </div>
+          <div class="bar-note-list note-copy"></div>
+          <div class="loop-actions">
+            <button class="preview-btn" type="button" data-loop="bachTest">Listen</button>
+            <button class="download-btn" type="button" data-loop="bachTest">Download MIDI</button>
+          </div>
+          <p class="audio-message" aria-live="polite"></p>
+        </div>
+        <div class="midi-shell bach-piano-shell" aria-label="Bach test MIDI grid">
+          <div class="midi-topbar">
+            <span>Bach chorale test</span>
+            <div class="transport" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+          <div class="piano-legend" aria-label="Piano roll legend">
+            <span>Stacked blocks = chord</span>
+            <span>Horizontal movement = sequence</span>
+            <span>Block width = note duration</span>
+          </div>
+          <div class="piano-roll visual-grid" data-loop="bachTest" data-bars="true" data-velocity="true"></div>
+        </div>
+      </article>
     </section>
 
     <section id="loops" aria-labelledby="loops-title">
@@ -684,120 +995,95 @@
         <p>Longer progressions with clear chord stacks, timed movement, and playable previews.</p>
       </div>
       <div class="example-grid">
-        <article data-loop-card="bachTest">
-          <h3>Score-derived Bach test</h3>
-          <div class="meta">
-            <span class="tag">emotional loop</span>
-            <span class="tag">ambient</span>
-            <span class="tag blue">8 bars</span>
-          </div>
-          <div class="compact-midi visual-grid" data-loop="bachTest"></div>
-          <p class="source-line">J. S. Bach / Bach chorale test</p>
-          <p class="note-copy"></p>
-          <p class="description">A simplified chord-stack loop extracted from one Bach MusicXML file and mapped into a producer-ready mid-range voicing.</p>
-          <div class="loop-actions">
-            <button class="preview-btn" type="button" data-loop="bachTest">Enable audio</button>
-            <button class="download-btn" type="button">Download MIDI</button>
-          </div>
-        </article>
-
         <article data-loop-card="dark">
-          <h3>Dark Minimal Pulse</h3>
+          <h3>Dark Minimal Chord Stabs</h3>
           <div class="meta">
             <span class="tag">dark minimal</span>
             <span class="tag blue">8 bars</span>
           </div>
+          <div class="compact-midi visual-grid" data-loop="dark"></div>
           <p class="note-copy"></p>
           <p class="description">Low, tight, and uncluttered. Stacked blocks show chords; later blocks stretch into a longer response.</p>
           <div class="loop-actions">
-            <button class="preview-btn" type="button" data-loop="dark">Enable audio</button>
-            <button class="download-btn" type="button">Download MIDI</button>
+            <button class="preview-btn" type="button" data-loop="dark">Listen</button>
+            <button class="download-btn" type="button" data-loop="dark">Download MIDI</button>
           </div>
         </article>
 
         <article data-loop-card="ambient">
-          <h3>Ambient Pad Drift</h3>
+          <h3>Ambient Pad Chord Progression</h3>
           <div class="meta">
             <span class="tag">ambient</span>
             <span class="tag blue">8 bars</span>
           </div>
+          <div class="compact-midi visual-grid" data-loop="ambient"></div>
           <p class="note-copy"></p>
           <p class="description">Soft, wide, and slow moving. Longer notes overlap visually with the space they occupy.</p>
           <div class="loop-actions">
-            <button class="preview-btn" type="button" data-loop="ambient">Enable audio</button>
-            <button class="download-btn" type="button">Download MIDI</button>
+            <button class="preview-btn" type="button" data-loop="ambient">Listen</button>
+            <button class="download-btn" type="button" data-loop="ambient">Download MIDI</button>
           </div>
         </article>
 
         <article data-loop-card="techno">
-          <h3>Melodic Techno Lift</h3>
+          <h3>Melodic Techno Chord Loop</h3>
           <div class="meta">
             <span class="tag">melodic techno</span>
             <span class="tag blue">8 bars</span>
           </div>
+          <div class="compact-midi visual-grid" data-loop="techno"></div>
           <p class="note-copy"></p>
           <p class="description">Forward motion without clutter. Chords and short answer notes are separated by their beat positions.</p>
           <div class="loop-actions">
-            <button class="preview-btn" type="button" data-loop="techno">Enable audio</button>
-            <button class="download-btn" type="button">Download MIDI</button>
+            <button class="preview-btn" type="button" data-loop="techno">Listen</button>
+            <button class="download-btn" type="button" data-loop="techno">Download MIDI</button>
           </div>
         </article>
 
         <article data-loop-card="lofi">
-          <h3>Lo-fi Rain Loop</h3>
+          <h3>Lo-fi Keys Progression</h3>
           <div class="meta">
             <span class="tag">lo-fi</span>
             <span class="tag blue">4 bars</span>
           </div>
+          <div class="compact-midi visual-grid" data-loop="lofi"></div>
           <p class="note-copy"></p>
           <p class="description">Dusty and mellow. Chords move like a sampled keyboard part with a small top-note answer.</p>
           <div class="loop-actions">
-            <button class="preview-btn" type="button" data-loop="lofi">Enable audio</button>
-            <button class="download-btn" type="button">Download MIDI</button>
+            <button class="preview-btn" type="button" data-loop="lofi">Listen</button>
+            <button class="download-btn" type="button" data-loop="lofi">Download MIDI</button>
           </div>
         </article>
 
         <article data-loop-card="emotional">
-          <h3>Emotional Loop Starter</h3>
+          <h3>Emotional Piano Chord Starter</h3>
           <div class="meta">
             <span class="tag">emotional loop</span>
             <span class="tag blue">8 bars</span>
           </div>
+          <div class="compact-midi visual-grid" data-loop="emotional"></div>
           <p class="note-copy"></p>
           <p class="description">A direct mood bed for toplines, vocal chops, and bright plucks with a gentle lift near the end.</p>
           <div class="loop-actions">
-            <button class="preview-btn" type="button" data-loop="emotional">Enable audio</button>
-            <button class="download-btn" type="button">Download MIDI</button>
+            <button class="preview-btn" type="button" data-loop="emotional">Listen</button>
+            <button class="download-btn" type="button" data-loop="emotional">Download MIDI</button>
           </div>
         </article>
 
         <article data-loop-card="afterhours">
-          <h3>After-hours Bass Chords</h3>
+          <h3>After-hours Bass Chord Stabs</h3>
           <div class="meta">
             <span class="tag">dark minimal</span>
             <span class="tag blue">4 bars</span>
           </div>
+          <div class="compact-midi visual-grid" data-loop="afterhours"></div>
           <p class="note-copy"></p>
           <p class="description">Darker low-mid blocks for stripped arrangements, with short stabs answering held chords.</p>
           <div class="loop-actions">
-            <button class="preview-btn" type="button" data-loop="afterhours">Enable audio</button>
-            <button class="download-btn" type="button">Download MIDI</button>
+            <button class="preview-btn" type="button" data-loop="afterhours">Listen</button>
+            <button class="download-btn" type="button" data-loop="afterhours">Download MIDI</button>
           </div>
         </article>
-      </div>
-    </section>
-
-    <section id="workflow" aria-labelledby="workflow-title">
-      <div class="section-heading">
-        <h2 id="workflow-title">Piano Roll View</h2>
-        <p>The grid is generated from the same timing data that plays the sound: time controls horizontal position, duration controls width, pitch controls height.</p>
-      </div>
-      <div class="midi-shell" aria-label="Large MIDI grid example">
-        <div class="midi-topbar">
-          <span>Melodic techno lift</span>
-          <div class="transport" aria-hidden="true"><span></span><span></span><span></span></div>
-        </div>
-        <div class="midi-grid visual-grid" data-loop="techno"></div>
       </div>
     </section>
 
@@ -817,80 +1103,79 @@
       <div class="library-grid">
         <article class="library-card" data-loop-card="night">
           <div class="compact-midi visual-grid" data-loop="night"></div>
-          <h3>Night Runner</h3>
+          <h3>Dark Minimal MIDI Starter</h3>
           <p class="library-notes"></p>
           <p class="vibe">dark minimal</p>
-          <button class="preview-btn" type="button" data-loop="night">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="night">Listen</button>
         </article>
 
         <article class="library-card" data-loop-card="soft">
           <div class="compact-midi visual-grid" data-loop="soft"></div>
-          <h3>Soft Focus</h3>
+          <h3>Ambient Pad Starter</h3>
           <p class="library-notes"></p>
           <p class="vibe">ambient</p>
-          <button class="preview-btn" type="button" data-loop="soft">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="soft">Listen</button>
         </article>
 
         <article class="library-card" data-loop-card="warehouse">
           <div class="compact-midi visual-grid" data-loop="warehouse"></div>
-          <h3>Warehouse Pluck</h3>
+          <h3>Melodic Techno Pluck Chords</h3>
           <p class="library-notes"></p>
           <p class="vibe">melodic techno</p>
-          <button class="preview-btn" type="button" data-loop="warehouse">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="warehouse">Listen</button>
         </article>
 
         <article class="library-card" data-loop-card="late">
           <div class="compact-midi visual-grid" data-loop="late"></div>
-          <h3>Late Text</h3>
+          <h3>Emotional Topline Chords</h3>
           <p class="library-notes"></p>
           <p class="vibe">emotional loop</p>
-          <button class="preview-btn" type="button" data-loop="late">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="late">Listen</button>
         </article>
 
         <article class="library-card" data-loop-card="tape">
           <div class="compact-midi visual-grid" data-loop="tape"></div>
-          <h3>Tape Glow</h3>
+          <h3>Lo-fi Keys Loop</h3>
           <p class="library-notes"></p>
           <p class="vibe">lo-fi</p>
-          <button class="preview-btn" type="button" data-loop="tape">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="tape">Listen</button>
         </article>
 
         <article class="library-card" data-loop-card="basement">
           <div class="compact-midi visual-grid" data-loop="basement"></div>
-          <h3>Basement Air</h3>
+          <h3>Dark Basement Chord Stabs</h3>
           <p class="library-notes"></p>
           <p class="vibe">dark minimal</p>
-          <button class="preview-btn" type="button" data-loop="basement">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="basement">Listen</button>
         </article>
 
         <article class="library-card" data-loop-card="open">
           <div class="compact-midi visual-grid" data-loop="open"></div>
-          <h3>Open Sky</h3>
+          <h3>Open Ambient Chord Bed</h3>
           <p class="library-notes"></p>
           <p class="vibe">ambient</p>
-          <button class="preview-btn" type="button" data-loop="open">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="open">Listen</button>
         </article>
 
         <article class="library-card" data-loop-card="green">
           <div class="compact-midi visual-grid" data-loop="green"></div>
-          <h3>Green Room</h3>
+          <h3>Melodic Techno Green Room Loop</h3>
           <p class="library-notes"></p>
           <p class="vibe">melodic techno</p>
-          <button class="preview-btn" type="button" data-loop="green">Enable audio</button>
+          <button class="preview-btn" type="button" data-loop="green">Listen</button>
         </article>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="page">Static HTML, CSS, and browser audio. MIDI download buttons are placeholders.</div>
+    <div class="page">Static HTML, CSS, browser audio, and generated MIDI downloads.</div>
   </footer>
 
   <script>
-    const BPM = 120;
-    const BEAT_SECONDS = 60 / BPM;
     const LOOKAHEAD_SECONDS = 0.16;
     const SCHEDULE_INTERVAL_MS = 25;
+    const TICKS_PER_BEAT = 480;
     const NOTE_NAMES = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
     const NOTE_MAP = {
       C: 0,
@@ -916,14 +1201,14 @@
           file: "bach-test.musicxml"
         },
         events: [
-          { time: 0, notes: ["C4", "Eb4", "G4"], duration: 4 },
-          { time: 4, notes: ["G3", "B3", "D4"], duration: 4 },
-          { time: 8, notes: ["B3", "D4", "G4"], duration: 4 },
-          { time: 12, notes: ["D3", "F4", "Ab4"], duration: 4 },
-          { time: 16, notes: ["D4", "G4", "B4"], duration: 4 },
-          { time: 20, notes: ["G3", "B3", "D4"], duration: 4 },
-          { time: 24, notes: ["F3", "Eb4", "G4", "Bb4"], duration: 4 },
-          { time: 28, notes: ["Eb4", "G4", "Bb4"], duration: 4 }
+          { time: 0, notes: ["E3", "G3", "B3"], duration: 4 },
+          { time: 4, notes: ["C3", "E3", "G3"], duration: 4 },
+          { time: 8, notes: ["D3", "F3", "A3"], duration: 4 },
+          { time: 12, notes: ["B2", "D3", "F3"], duration: 4 },
+          { time: 16, notes: ["C3", "E3", "G3"], duration: 4 },
+          { time: 20, notes: ["A2", "C3", "E3"], duration: 4 },
+          { time: 24, notes: ["D3", "F3", "A3"], duration: 4 },
+          { time: 28, notes: ["G2", "B2", "D3"], duration: 4 }
         ]
       },
       dark: {
@@ -1077,6 +1362,14 @@
     let schedulerId = null;
     let nextLoopStartTime = 0;
     let activeSources = [];
+    let currentBpm = 120;
+    let activeLoopStartTime = 0;
+    let playheadFrameId = null;
+    let lastPointerPreviewTime = 0;
+
+    function beatSeconds() {
+      return 60 / currentBpm;
+    }
 
     function noteToMidi(note) {
       const match = note.trim().match(/^([A-G](?:b)?)(\d)$/);
@@ -1121,8 +1414,13 @@
           return;
         }
 
-        const lines = loop.events.map((event) => event.notes.join(" "));
-        target.innerHTML = lines.join("<br>");
+        if (target.classList.contains("bar-note-list")) {
+          target.innerHTML = loop.events
+            .map((event, index) => `<span class="bar-row" data-time="${event.time}">Bar ${index + 1}: ${event.notes.join(" ")}</span>`)
+            .join("<br>");
+        } else {
+          target.innerHTML = loop.events.map((event) => event.notes.join(" ")).join("<br>");
+        }
       });
     }
 
@@ -1133,17 +1431,40 @@
       }
 
       const isCompact = container.classList.contains("compact-midi");
+      const isPianoRoll = container.classList.contains("piano-roll");
       const range = getLoopRange(loop);
-      const rowHeight = isCompact ? 18 : 26;
+      const rowHeight = isCompact ? 18 : isPianoRoll ? 28 : 26;
       const length = getLoopLengthBeats(loop);
       const labels = document.createElement("div");
       const lanes = document.createElement("div");
+      const playhead = document.createElement("span");
 
+      container.innerHTML = "";
       labels.className = "note-labels";
       lanes.className = "grid-lanes";
+      playhead.className = "playhead";
       labels.style.gridTemplateRows = `repeat(${range.length}, ${rowHeight}px)`;
       lanes.style.setProperty("--row-height", `${rowHeight}px`);
       lanes.style.minHeight = `${range.length * rowHeight}px`;
+      lanes.appendChild(playhead);
+
+      if (isPianoRoll) {
+        const spacer = document.createElement("div");
+        const ruler = document.createElement("div");
+        spacer.className = "time-ruler-spacer";
+        ruler.className = "time-ruler";
+
+        for (let bar = 0; bar < loop.bars; bar += 1) {
+          const label = document.createElement("span");
+          label.className = "bar-label";
+          label.textContent = `Bar ${bar + 1}`;
+          label.style.left = `${(bar / loop.bars) * 100}%`;
+          ruler.appendChild(label);
+        }
+
+        container.appendChild(spacer);
+        container.appendChild(ruler);
+      }
 
       range.forEach((note) => {
         const label = document.createElement("span");
@@ -1160,14 +1481,39 @@
           block.style.left = `${(event.time / length) * 100}%`;
           block.style.width = `${(event.duration / length) * 100}%`;
           block.style.top = `${row * rowHeight + 2}px`;
+          if ((event.duration / length) * 100 > 6) {
+            block.textContent = note;
+          }
           block.setAttribute("aria-label", `${note} at beat ${event.time}`);
           lanes.appendChild(block);
         });
       });
 
-      container.innerHTML = "";
       container.appendChild(labels);
       container.appendChild(lanes);
+
+      if (isPianoRoll && container.dataset.velocity === "true") {
+        const velocityLabel = document.createElement("div");
+        const velocityBars = document.createElement("div");
+        const velocityWrap = document.createElement("div");
+        velocityWrap.className = "velocity-lane";
+        velocityLabel.className = "velocity-label";
+        velocityBars.className = "velocity-bars";
+        velocityLabel.textContent = "Velocity shape";
+
+        loop.events.forEach((event, index) => {
+          const bar = document.createElement("span");
+          const height = 24 + ((index * 13) % 34);
+          bar.className = "velocity-bar";
+          bar.style.left = `calc(${(event.time / length) * 100}% + 8px)`;
+          bar.style.height = `${height}px`;
+          velocityBars.appendChild(bar);
+        });
+
+        velocityWrap.appendChild(velocityLabel);
+        velocityWrap.appendChild(velocityBars);
+        container.appendChild(velocityWrap);
+      }
     }
 
     async function ensureAudioContext() {
@@ -1178,6 +1524,14 @@
       }
 
       return audioContext;
+    }
+
+    function setAudioMessage(button, message) {
+      const card = button.closest("article");
+      const target = card?.querySelector(".audio-message");
+      if (target) {
+        target.textContent = message;
+      }
     }
 
     async function unlockAudio() {
@@ -1191,14 +1545,18 @@
         gain.connect(context.destination);
         oscillator.start(context.currentTime);
         oscillator.stop(context.currentTime + 0.03);
-        audioUnlocked = true;
+        audioUnlocked = context.state === "running";
 
-        document.querySelectorAll(".preview-btn").forEach((button) => {
-          if (!button.classList.contains("is-playing")) {
-            button.textContent = "Play preview";
-          }
-        });
+        if (audioUnlocked) {
+          document.querySelectorAll(".preview-btn").forEach((button) => {
+            if (!button.classList.contains("is-playing")) {
+              button.textContent = "Listen";
+            }
+          });
+        }
       }
+
+      return audioUnlocked && context.state === "running";
     }
 
     function scheduleNote(note, startTime, durationSeconds) {
@@ -1249,10 +1607,67 @@
 
     function scheduleLoopPass(loop, loopStartTime) {
       loop.events.forEach((event) => {
-        const startTime = loopStartTime + event.time * BEAT_SECONDS;
-        const durationSeconds = event.duration * BEAT_SECONDS;
+        const startTime = loopStartTime + event.time * beatSeconds();
+        const durationSeconds = event.duration * beatSeconds();
         event.notes.forEach((note) => scheduleNote(note, startTime, durationSeconds));
       });
+    }
+
+    function updatePlayheads() {
+      if (!activeLoopId || !audioContext) {
+        return;
+      }
+
+      const loop = loops[activeLoopId];
+      const loopDurationSeconds = getLoopLengthBeats(loop) * beatSeconds();
+      const elapsed = (audioContext.currentTime - activeLoopStartTime) % loopDurationSeconds;
+      const progress = Math.max(0, elapsed / loopDurationSeconds);
+      const currentBeat = progress * getLoopLengthBeats(loop);
+
+      document.querySelectorAll(".visual-grid").forEach((grid) => {
+        const isActiveGrid = grid.dataset.loop === activeLoopId;
+        grid.classList.toggle("is-following", isActiveGrid);
+        const playhead = grid.querySelector(".playhead");
+        if (playhead) {
+          playhead.style.left = isActiveGrid ? `${progress * 100}%` : "0%";
+        }
+      });
+
+      document.querySelectorAll("[data-loop-card]").forEach((card) => {
+        const isActiveCard = card.dataset.loopCard === activeLoopId;
+        const cardLoop = loops[card.dataset.loopCard];
+        card.querySelectorAll(".bar-row").forEach((row) => {
+          const rowTime = Number(row.dataset.time);
+          const nextEvent = cardLoop?.events.find((event) => event.time > rowTime);
+          const rowEnd = nextEvent ? nextEvent.time : getLoopLengthBeats(cardLoop);
+          row.classList.toggle("is-current", isActiveCard && currentBeat >= rowTime && currentBeat < rowEnd);
+        });
+      });
+
+      playheadFrameId = requestAnimationFrame(updatePlayheads);
+    }
+
+    function startPlayhead() {
+      if (playheadFrameId) {
+        cancelAnimationFrame(playheadFrameId);
+      }
+      updatePlayheads();
+    }
+
+    function stopPlayhead() {
+      if (playheadFrameId) {
+        cancelAnimationFrame(playheadFrameId);
+        playheadFrameId = null;
+      }
+
+      document.querySelectorAll(".visual-grid").forEach((grid) => {
+        grid.classList.remove("is-following");
+        const playhead = grid.querySelector(".playhead");
+        if (playhead) {
+          playhead.style.left = "0%";
+        }
+      });
+      document.querySelectorAll(".bar-row").forEach((row) => row.classList.remove("is-current"));
     }
 
     function scheduler() {
@@ -1261,7 +1676,7 @@
       }
 
       const loop = loops[activeLoopId];
-      const loopDurationSeconds = getLoopLengthBeats(loop) * BEAT_SECONDS;
+      const loopDurationSeconds = getLoopLengthBeats(loop) * beatSeconds();
 
       while (nextLoopStartTime < audioContext.currentTime + LOOKAHEAD_SECONDS) {
         scheduleLoopPass(loop, nextLoopStartTime);
@@ -1285,41 +1700,186 @@
 
       activeSources = [];
       activeLoopId = null;
+      stopPlayhead();
 
       if (activeButton) {
         activeButton.classList.remove("is-playing");
-        activeButton.textContent = audioUnlocked ? "Play preview" : "Enable audio";
+        activeButton.textContent = "Listen";
         activeButton = null;
       }
     }
 
     async function handlePreview(button) {
-      if (!audioUnlocked) {
-        await unlockAudio();
-        return;
-      }
-
       if (button === activeButton) {
         stopLoop();
         return;
       }
 
       stopLoop();
-      await ensureAudioContext();
+      setAudioMessage(button, "");
+
+      const unlocked = await unlockAudio();
+      if (!unlocked || audioContext.state !== "running") {
+        button.textContent = "Listen";
+        setAudioMessage(button, "Tap Listen once to start audio.");
+        return;
+      }
 
       activeLoopId = button.dataset.loop;
       activeButton = button;
       activeButton.classList.add("is-playing");
       activeButton.textContent = "Stop";
       nextLoopStartTime = audioContext.currentTime + 0.04;
+      activeLoopStartTime = nextLoopStartTime;
       scheduler();
       schedulerId = setInterval(scheduler, SCHEDULE_INTERVAL_MS);
+      startPlayhead();
+    }
+
+    function handlePreviewPointer(event, button) {
+      if (event.pointerType !== "touch" && event.pointerType !== "pen") {
+        return;
+      }
+
+      event.preventDefault();
+      lastPointerPreviewTime = Date.now();
+      handlePreview(button);
+    }
+
+    function handlePreviewClick(event, button) {
+      if (Date.now() - lastPointerPreviewTime < 500) {
+        return;
+      }
+
+      handlePreview(button);
+    }
+
+    function clampBpm(value) {
+      return Math.max(60, Math.min(180, Number(value) || 120));
+    }
+
+    async function setBpm(value) {
+      const bpmInput = document.querySelector("#bach-bpm");
+      const nextBpm = clampBpm(value);
+      currentBpm = nextBpm;
+      if (bpmInput) {
+        bpmInput.value = String(nextBpm);
+      }
+
+      if (activeLoopId) {
+        const button = activeButton;
+        stopLoop();
+        if (button) {
+          await handlePreview(button);
+        }
+      }
+    }
+
+    function variableLength(value) {
+      let buffer = value & 0x7f;
+      const bytes = [];
+      while ((value >>= 7)) {
+        buffer <<= 8;
+        buffer |= ((value & 0x7f) | 0x80);
+      }
+      while (true) {
+        bytes.push(buffer & 0xff);
+        if (buffer & 0x80) {
+          buffer >>= 8;
+        } else {
+          break;
+        }
+      }
+      return bytes;
+    }
+
+    function pushText(bytes, text) {
+      for (let index = 0; index < text.length; index += 1) {
+        bytes.push(text.charCodeAt(index));
+      }
+    }
+
+    function push32(bytes, value) {
+      bytes.push((value >> 24) & 0xff, (value >> 16) & 0xff, (value >> 8) & 0xff, value & 0xff);
+    }
+
+    function push16(bytes, value) {
+      bytes.push((value >> 8) & 0xff, value & 0xff);
+    }
+
+    function buildMidi(loop, bpm) {
+      const events = [];
+      loop.events.forEach((event) => {
+        const start = Math.round(event.time * TICKS_PER_BEAT);
+        const end = Math.round((event.time + event.duration) * TICKS_PER_BEAT);
+        event.notes.forEach((note) => {
+          const midi = noteToMidi(note);
+          events.push({ tick: start, order: 1, bytes: [0x90, midi, 92] });
+          events.push({ tick: end, order: 0, bytes: [0x80, midi, 0] });
+        });
+      });
+
+      events.sort((a, b) => a.tick - b.tick || a.order - b.order);
+
+      const track = [];
+      const tempo = Math.round(60000000 / bpm);
+      track.push(...variableLength(0), 0xff, 0x51, 0x03, (tempo >> 16) & 0xff, (tempo >> 8) & 0xff, tempo & 0xff);
+      track.push(...variableLength(0), 0xff, 0x58, 0x04, 0x04, 0x02, 0x18, 0x08);
+
+      let lastTick = 0;
+      events.forEach((event) => {
+        track.push(...variableLength(event.tick - lastTick), ...event.bytes);
+        lastTick = event.tick;
+      });
+      track.push(...variableLength(0), 0xff, 0x2f, 0x00);
+
+      const bytes = [];
+      pushText(bytes, "MThd");
+      push32(bytes, 6);
+      push16(bytes, 0);
+      push16(bytes, 1);
+      push16(bytes, TICKS_PER_BEAT);
+      pushText(bytes, "MTrk");
+      push32(bytes, track.length);
+      bytes.push(...track);
+      return new Uint8Array(bytes);
+    }
+
+    function downloadMidi(loopId) {
+      const loop = loops[loopId];
+      if (!loop) {
+        return;
+      }
+
+      const midi = buildMidi(loop, currentBpm);
+      const blob = new Blob([midi], { type: "audio/midi" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = loopId === "bachTest" ? "bach-chorale-test-loop.mid" : `${loopId}-loop.mid`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
     }
 
     setNoteText();
     document.querySelectorAll(".visual-grid").forEach(renderGrid);
     document.querySelectorAll(".preview-btn").forEach((button) => {
-      button.addEventListener("click", () => handlePreview(button));
+      button.addEventListener("pointerup", (event) => handlePreviewPointer(event, button));
+      button.addEventListener("click", (event) => handlePreviewClick(event, button));
+    });
+    document.querySelectorAll(".download-btn[data-loop]").forEach((button) => {
+      button.addEventListener("click", () => downloadMidi(button.dataset.loop));
+    });
+    document.querySelectorAll(".bpm-step").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = document.querySelector("#bach-bpm");
+        setBpm(clampBpm(Number(input.value) + Number(button.dataset.step)));
+      });
+    });
+    document.querySelector("#bach-bpm")?.addEventListener("change", (event) => {
+      setBpm(event.target.value);
     });
   </script>
 </body>

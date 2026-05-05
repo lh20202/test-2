@@ -6,87 +6,18 @@
       "work": "Bach chorale test",
       "file": "bach-test.musicxml"
     },
-    "vibe": [
-      "emotional loop",
-      "ambient",
-      "melodic"
-    ],
+    "vibe": ["score-derived", "emotional loop", "ambient"],
     "bpm": 120,
     "bars": 8,
     "loop": [
-      {
-        "time": 0,
-        "notes": [
-          "C4",
-          "Eb4",
-          "G4"
-        ],
-        "duration": 4
-      },
-      {
-        "time": 4,
-        "notes": [
-          "G3",
-          "B3",
-          "D4"
-        ],
-        "duration": 4
-      },
-      {
-        "time": 8,
-        "notes": [
-          "B3",
-          "D4",
-          "G4"
-        ],
-        "duration": 4
-      },
-      {
-        "time": 12,
-        "notes": [
-          "D3",
-          "F4",
-          "Ab4"
-        ],
-        "duration": 4
-      },
-      {
-        "time": 16,
-        "notes": [
-          "D4",
-          "G4",
-          "B4"
-        ],
-        "duration": 4
-      },
-      {
-        "time": 20,
-        "notes": [
-          "G3",
-          "B3",
-          "D4"
-        ],
-        "duration": 4
-      },
-      {
-        "time": 24,
-        "notes": [
-          "F3",
-          "Eb4",
-          "G4",
-          "Bb4"
-        ],
-        "duration": 4
-      },
-      {
-        "time": 28,
-        "notes": [
-          "Eb4",
-          "G4",
-          "Bb4"
-        ],
-        "duration": 4
-      }
+      { "time": 0, "notes": ["E3", "G3", "B3"], "duration": 4 },
+      { "time": 4, "notes": ["C3", "E3", "G3"], "duration": 4 },
+      { "time": 8, "notes": ["D3", "F3", "A3"], "duration": 4 },
+      { "time": 12, "notes": ["B2", "D3", "F3"], "duration": 4 },
+      { "time": 16, "notes": ["C3", "E3", "G3"], "duration": 4 },
+      { "time": 20, "notes": ["A2", "C3", "E3"], "duration": 4 },
+      { "time": 24, "notes": ["D3", "F3", "A3"], "duration": 4 },
+      { "time": 28, "notes": ["G2", "B2", "D3"], "duration": 4 }
     ]
   }
 ]
